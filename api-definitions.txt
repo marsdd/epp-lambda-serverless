@@ -1,0 +1,193 @@
+Service Information
+service: epp-api
+stage: dev
+region: us-east-1
+stack: epp-api-dev
+api keys:
+  None
+endpoints:
+  GET - https://someid.execute-api.us-east-1.amazonaws.com/dev/occupations-redis
+  GET - https://someid.execute-api.us-east-1.amazonaws.com/dev/occupations-db
+  GET - https://someid.execute-api.us-east-1.amazonaws.com/dev/synch-occupations
+  GET - https://someid.execute-api.us-east-1.amazonaws.com/dev/occupations-db/{id}
+  GET - https://someid.execute-api.us-east-1.amazonaws.com/dev/all-db-details/{id}
+  GET - https://someid.execute-api.us-east-1.amazonaws.com/dev/distances/{id}
+  GET - https://someid.execute-api.us-east-1.amazonaws.com/dev/occupation-details/{id}
+  GET - https://someid.execute-api.us-east-1.amazonaws.com/dev/synch-skills
+  GET - https://someid.execute-api.us-east-1.amazonaws.com/dev/synch-abilities
+functions:
+  listredis: epp-api-dev-listredis
+  listdb: epp-api-dev-listdb
+  synchoccupations: epp-api-dev-synchoccupations
+  getdb: epp-api-dev-getdb
+  getdbdetails: epp-api-dev-getdbdetails
+  getdbdistance: epp-api-dev-getdbdistance
+  getdetails: epp-api-dev-getdetails
+  synchskills: epp-api-dev-synchskills
+  synchabilities: epp-api-dev-synchabilities
+  dispatcher-occupations: epp-api-dev-dispatcher-occupations
+  dispatcher-skills: epp-api-dev-dispatcher-skills
+  dispatcher-abilities: epp-api-dev-dispatcher-abilities
+  cron-synch: epp-api-dev-cron-synch
+
+Stack Outputs
+GetdetailsLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:awsaccountid:function:epp-api-dev-getdetails:13
+SynchoccupationsLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:awsaccountid:function:epp-api-dev-synchoccupations:12
+CronDashsynchLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:awsaccountid:function:epp-api-dev-cron-synch:13
+DispatcherDashskillsLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:awsaccountid:function:epp-api-dev-dispatcher-skills:12
+GetdbLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:awsaccountid:function:epp-api-dev-getdb:12
+ServerlessDeploymentBucketName: epp-api-dev-serverlessdeploymentbucket-11b6j630c70g5
+ListredisLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:awsaccountid:function:epp-api-dev-listredis:13
+GetdbdistanceLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:awsaccountid:function:epp-api-dev-getdbdistance:1
+DispatcherDashoccupationsLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:awsaccountid:function:epp-api-dev-dispatcher-occupations:13
+ListdbLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:awsaccountid:function:epp-api-dev-listdb:13
+SynchskillsLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:awsaccountid:function:epp-api-dev-synchskills:13
+DispatcherDashabilitiesLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:awsaccountid:function:epp-api-dev-dispatcher-abilities:13
+GetdbdetailsLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:awsaccountid:function:epp-api-dev-getdbdetails:6
+SynchabilitiesLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:awsaccountid:function:epp-api-dev-synchabilities:13
+ServiceEndpoint: https://someid.execute-api.us-east-1.amazonaws.com/dev
+
+
+
+***
+* Description: Get all occupations
+***
+
+Request: GET /occupations/
+Request body: (empty)
+Response body:
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "occupations": [{
+      "id": "11-2022.00",
+      "title": "Sales Managers",
+      "description": "Plan, direct, or coordinate actual distribution ..."
+    },
+    {
+      "id": "11-2031.00",
+      "title": "Public Relations and Fundraising Managers",
+      "description": "Plan, direct, or coordinate activities ..."
+    }
+  ]
+}
+
+
+***
+* Description: Get all occupation distances related to a provided occupation {occ_id} parameter
+***
+
+Request: GET /distances/{occ_id}
+Request: GET /distances/11-2031.00
+Request body: (empty)
+Response body:
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "distances": [{
+      "id": "11-2022.00",
+      "title": "Sales Managers",
+      "distance": 0.4,
+      "risk": 0.2
+    },
+    {
+      "id": "11-3031.00",
+      "title": "Financial Managers",
+      "distance": 0.5,
+      "risk": 0.3
+    }
+  ]
+}
+
+
+
+
+***
+* Description: Get occupation's details matching provided occupation {occ_id} parameter
+***
+
+Request: GET /occupations/{occ_id}
+Request: GET /occupations/11-2031.00
+Request body: (empty)
+Response body:
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "id": "11-2022.00",
+  "title": "Sales Managers",
+  "description": "Plan, direct, or coordinate actual distribution ...",
+  "skills": [{
+      "id": "2.A.1.a",
+      "attr_name": "Writing",
+      "attr_level": 4,
+      "attr_importance": 4
+    },
+    {
+      "id": "2.A.1.b",
+      "attr_name": "Mathematics",
+      "attr_level": 4,
+      "attr_importance": 4
+    }
+  ],
+  "abilities": [{
+      "id": "1.A.1.b.2",
+      "attr_name": "Originality",
+      "attr_level": 4.25,
+      "attr_importance": 3.88
+    },
+    {
+      "id": "1.A.1.b.4",
+      "attr_name": "Deductive Reasoning",
+      "attr_level": 5,
+      "attr_importance": 4.12
+    }
+  ],
+  "education": [{
+      "cat": "1",
+      "cat_description": "Less then a High School Diploma",
+      "percentage": 0
+    },
+    {
+      "cat": "8",
+      "cat_description": "Master's Degree",
+      "percentage": 26
+    }
+  ],
+  "risk": 0.2
+}
+
+***
+* Description: Get trainings matching occupation {occ_id} parameter
+***
+
+Request: GET /trainings/{occ_id}
+Request: GET /trainings/11-2031.00
+Request body: (empty)
+Response body:
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "training": [{
+      "name": "SysOp Admin",
+      "type": "Certificate",
+      "institution": "George Brown College",
+      "duration": "1 day",
+      "link": "http://"
+    },
+    {
+      "name": "SysOp Admin",
+      "type": "Course",
+      "institution": "George Brown College",
+      "duration": "2 years",
+      "link": "http://"
+    }
+  ]
+}

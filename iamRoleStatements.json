@@ -1,0 +1,16 @@
+[
+  {
+    "Effect": "Allow",
+    "Action": [
+      "lambda:InvokeFunction"
+    ],
+    "Resource": "*"
+  },
+  {
+    "Effect": "Allow",
+    "Action": [
+      "SNS:Publish"
+    ],
+    "Resource": "arn:aws:sns:${opt:region, self:provider.region}:*:*"
+  }
+]

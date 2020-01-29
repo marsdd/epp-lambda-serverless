@@ -1,0 +1,8 @@
+node_modules
+.serverless
+kms-secrets.js
+secrets.prod.yml
+secrets.dev.yml
+docs/secrets.md
+scripts/db/
+.idea/
